@@ -1888,7 +1888,7 @@ function renderArticle(id) {
       ${a.deck ? `<p class="art-deck">${esc(a.deck)}</p>` : ''}
       <div class="art-meta">${esc(a.byline)} &nbsp;·&nbsp; ${esc(a.date)}</div>
       <div class="share-bar share-bar--top">
-        <button class="share-btn share-copy-btn" onclick="shareLink()" title="Copy link" aria-label="Copy link">${iconLink}</button>
+        <button class="share-btn share-copy-btn" onclick="shareLink('${shareUrl}')" title="Copy link" aria-label="Copy link">${iconLink}</button>
         <a class="share-btn" href="${fbHref}" target="_blank" rel="noopener" title="Share on Facebook" aria-label="Share on Facebook">${iconFb}</a>
         <a class="share-btn" href="${twHref}" target="_blank" rel="noopener" title="Post on Twitter / X" aria-label="Post on Twitter / X">${iconX}</a>
         <a class="share-btn" href="${smsHref}" title="Share via text message" aria-label="Share via text message">${iconSms}</a>
@@ -1897,7 +1897,7 @@ function renderArticle(id) {
       <div class="art-body">${a.body}</div>
       <div class="share-bar share-bar--bottom">
         <span class="share-bar-label">Share</span>
-        <button class="share-btn share-copy-btn" onclick="shareLink()" aria-label="Copy link">${iconLink} <span class="share-copy-label">Copy Link</span></button>
+        <button class="share-btn share-copy-btn" onclick="shareLink('${shareUrl}')" aria-label="Copy link">${iconLink} <span class="share-copy-label">Copy Link</span></button>
         <a class="share-btn" href="${fbHref}" target="_blank" rel="noopener" aria-label="Share on Facebook">${iconFb} <span>Facebook</span></a>
         <a class="share-btn" href="${twHref}" target="_blank" rel="noopener" aria-label="Post on Twitter / X">${iconX} <span>Twitter / X</span></a>
         <a class="share-btn" href="${smsHref}" aria-label="Share via text message">${iconSms} <span>Text</span></a>
@@ -2197,8 +2197,8 @@ document.addEventListener('touchstart', function(e) {
 }, { passive: true });
 
 // ── SHARE ────────────────────────────────────────────────────────
-function shareLink() {
-  navigator.clipboard.writeText(window.location.href).then(() => {
+function shareLink(url) {
+  navigator.clipboard.writeText(url).then(() => {
     document.querySelectorAll('.share-copy-btn').forEach(btn => {
       btn.classList.add('share-btn--copied');
       const lbl = btn.querySelector('.share-copy-label');
