@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#f5f0e8"/>
+
+  <!-- Top border rules -->
+  <rect x="0" y="0" width="1200" height="6" fill="#1a1a1a"/>
+  <rect x="0" y="9" width="1200" height="1.5" fill="#1a1a1a"/>
+
+  <!-- Bottom border rules -->
+  <rect x="0" y="623" width="1200" height="7" fill="#1a1a1a"/>
+  <rect x="0" y="619.5" width="1200" height="1.5" fill="#1a1a1a"/>
+
+  <!-- Left/right margin lines -->
+  <rect x="60" y="0" width="1.5" height="630" fill="#c8c0b0"/>
+  <rect x="1138.5" y="0" width="1.5" height="630" fill="#c8c0b0"/>
+
+  <!-- Top strip: italic tagline -->
+  <text x="600" y="37" font-family="Georgia, 'Times New Roman', serif" font-size="13" fill="#4a4a4a" text-anchor="middle" letter-spacing="2.5" font-style="italic">Detroit's Most Trusted Source for News It Probably Made Up</text>
+  <line x1="60" y1="48" x2="1140" y2="48" stroke="#c8c0b0" stroke-width="1"/>
+
+  <!-- Corner ornaments -->
+  <text x="80" y="90" font-family="Georgia, serif" font-size="26" fill="#8b1a1a" text-anchor="middle">✦</text>
+  <text x="1120" y="90" font-family="Georgia, serif" font-size="26" fill="#8b1a1a" text-anchor="middle">✦</text>
+
+  <!-- "THE" header label -->
+  <text x="600" y="92" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="bold" fill="#1a1a1a" text-anchor="middle" letter-spacing="14">THE</text>
+
+  <!-- Thin rule below THE -->
+  <line x1="200" y1="103" x2="1000" y2="103" stroke="#c8c0b0" stroke-width="1"/>
+
+  <!-- Main masthead: MOTORCITY -->
+  <text x="600" y="255" font-family="Georgia, 'Times New Roman', serif" font-size="148" font-weight="bold" fill="#0d0d0d" text-anchor="middle" letter-spacing="5">MOTORCITY</text>
+
+  <!-- Main masthead: MOUTH -->
+  <text x="600" y="400" font-family="Georgia, 'Times New Roman', serif" font-size="148" font-weight="bold" fill="#0d0d0d" text-anchor="middle" letter-spacing="10">MOUTH</text>
+
+  <!-- Decorative double-rule with ornament -->
+  <line x1="60" y1="428" x2="530" y2="428" stroke="#1a1a1a" stroke-width="2"/>
+  <line x1="60" y1="432" x2="530" y2="432" stroke="#1a1a1a" stroke-width="0.5"/>
+  <text x="600" y="437" font-family="Georgia, serif" font-size="20" fill="#8b1a1a" text-anchor="middle">✦</text>
+  <line x1="670" y1="428" x2="1140" y2="428" stroke="#1a1a1a" stroke-width="2"/>
+  <line x1="670" y1="432" x2="1140" y2="432" stroke="#1a1a1a" stroke-width="0.5"/>
+
+  <!-- Tagline -->
+  <text x="600" y="485" font-family="Georgia, 'Times New Roman', serif" font-size="16" fill="#8b1a1a" text-anchor="middle" letter-spacing="6">SATIRE  ·  LOCAL  ·  DETROIT</text>
+
+  <!-- URL -->
+  <text x="600" y="518" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#4a4a4a" text-anchor="middle" letter-spacing="2" font-style="italic">motorcitymouth.com</text>
+</svg>

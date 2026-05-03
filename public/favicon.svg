@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+  <rect x="4" y="4" width="56" height="56" rx="4" fill="none" stroke="#8b1a1a" stroke-width="1.5"/>
+  <line x1="4" y1="18" x2="60" y2="18" stroke="#8b1a1a" stroke-width="1"/>
+  <line x1="4" y1="20" x2="60" y2="20" stroke="#8b1a1a" stroke-width="0.4"/>
+  <line x1="4" y1="46" x2="60" y2="46" stroke="#8b1a1a" stroke-width="1"/>
+  <line x1="4" y1="48" x2="60" y2="48" stroke="#8b1a1a" stroke-width="0.4"/>
+  <text x="32" y="14.5" font-family="Georgia, 'Times New Roman', serif" font-size="7" font-weight="bold" fill="#f5f0e8" text-anchor="middle" letter-spacing="1.5">THE</text>
+  <text x="32" y="40" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-weight="bold" fill="#f5f0e8" text-anchor="middle" letter-spacing="1">MM</text>
+  <text x="32" y="57" font-family="Georgia, 'Times New Roman', serif" font-size="5.5" fill="#8b8070" text-anchor="middle" letter-spacing="1.8">DETROIT</text>
+</svg>

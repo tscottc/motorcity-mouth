@@ -23,12 +23,8 @@ Navigation is hash-based — clicking around changes the URL hash (e.g. `#politi
 | `#world` | World News section |
 | `#local` | Local section |
 | `#trending` | Trending section |
-| `#columns` | Weekly Columns landing (aggregates all column sub-sections) |
+| `#columns` | Weekly Columns landing — currently shows Dave's Horrorscopes card |
 | `#horrorscopes` | Full page: Dave's Horrorscopes for all 12 signs |
-| `#let-me-finish` | "Let Me Finish" column section |
-| `#aunt-ruthie` | "Ask Aunt Ruthie" column section |
-| `#burn-notice` | "The Burn Notice" column section |
-| `#motor-city-beat` | "Motor City Beat" column section |
 | `#article/<id>` | Full article page |
 
 ### Live Features
@@ -45,7 +41,11 @@ Navigation is hash-based — clicking around changes the URL hash (e.g. `#politi
 motorcity-mouth/
 ├── public/                  ← Everything Firebase serves lives here
 │   ├── index.html           ← The entire site (styles + JS + content)
-│   └── images/              ← Article images referenced in ARTICLES array
+│   ├── favicon.svg          ← Site favicon
+│   └── images/              ← Article and feature images
+│       ├── horrorscopes.jpg ← Zodiac wheel — used on section card, front page
+│       │                       astro strip, and Horrorscopes page banner
+│       └── *.jpg / *.png    ← One image file per article
 ├── firebase.json            ← Firebase Hosting config (serves public/)
 ├── .firebaserc              ← Firebase project ID (motorcity-mouth)
 ├── articles/                ← Raw article drafts as .txt files (reference only)
@@ -68,7 +68,7 @@ All articles are in the `ARTICLES` array near the top of `public/index.html` (lo
   deck:         'Subheadline here',   // optional — leave '' to omit
   section:      'politics',           // see valid sections below
   featured:     true,                 // true = lead story on front page (only one at a time)
-  frontPage:    true,                 // true = appears in front page lower grid
+  frontPage:    true,                 // true = eligible for front page sidebar and lower grid
   byline:       'By Staff Reporter',
   date:         'April 18, 2026',
   lede:         'Opening paragraph text…',  // used in teasers/cards
@@ -87,19 +87,34 @@ All articles are in the `ARTICLES` array near the top of `public/index.html` (lo
 | `local` | Local section |
 | `trending` | Trending section |
 | `horrorscopes` | Dave's Horrorscopes (special — see below) |
-| `let-me-finish` | Let Me Finish column |
-| `aunt-ruthie` | Ask Aunt Ruthie column |
-| `burn-notice` | The Burn Notice column |
-| `motor-city-beat` | Motor City Beat column |
 
 **Front page layout rules:**
 - Exactly one article should have `featured: true` — this becomes the large lead story.
-- Articles with `frontPage: true` (and not featured) appear in the lower three-column grid.
-- The sidebar on the front page shows the first 4 articles in the array that aren't the featured one — order in the array controls what shows up there.
+- The sidebar shows up to 4 articles that have `frontPage: true` and are not the featured story, in array order.
+- The lower "More From Today's Edition" grid shows up to 3 articles with `frontPage: true` that didn't make the sidebar.
+- Order in the `ARTICLES` array controls what surfaces where — articles listed earlier rank higher.
 
 **To remove an article:** delete its object from the `ARTICLES` array.
 
-**Images:** drop the file into `public/images/` and set `image: 'images/filename.jpg'` in the article object.
+**Images:** drop the file into `public/images/` and set `image: 'images/filename.jpg'` in the article object. See image guidelines below.
+
+---
+
+## Image Guidelines
+
+Images are displayed in several contexts with fixed dimensions. Supply images that are at least as large as the display sizes below — smaller images will be upscaled and look blurry.
+
+| Context | Display size | Aspect ratio | Notes |
+|---------|-------------|-------------|-------|
+| Lead story (front page) | ~800px wide | **16:9** | `max-height: 440px` cap applied |
+| Sidebar stories | ~260px wide | any (cropped to **160px tall**) | `object-fit: cover` — center of image is shown |
+| Lower grid ("More From Today's") | ~340px wide | any (cropped to **180px tall**) | `object-fit: cover` |
+| Article page hero | full column width | any (cropped to **540px tall max**) | `object-fit: cover`, top-anchored |
+| Section card thumbnails | ~360px wide | any (cropped to **16:9**) | `object-fit: cover` |
+
+**Recommended minimum source resolution:** 900px wide for article images; 1200px wide for the lead story image.
+
+**Supported formats:** `.jpg`, `.jpeg`, `.png`, `.avif`, `.svg`
 
 ---
 
@@ -107,8 +122,18 @@ All articles are in the `ARTICLES` array near the top of `public/index.html` (lo
 
 The horrorscopes are a separate `HORRORSCOPES` object in `index.html`, just below the `ARTICLES` array. It has two parts:
 
-- **`intro`** — HTML string shown at the top of the Horrorscopes page. Dave's intro paragraph.
+- **`intro`** — HTML string shown at the top of the Horrorscopes page. Dave's intro paragraphs.
 - **`signs`** — Array of 12 sign objects. Each has `symbol`, `name`, `dates`, `key`, and `text`. Update `text` to change that sign's weekly blurb. The front page automatically shows the current sign's blurb based on today's date.
+
+### Horrorscopes Image
+
+`public/images/horrorscopes.jpg` is the zodiac wheel illustration used in three places:
+
+1. **Weekly Columns section page** — the Dave's Horrorscopes card image
+2. **Front page bottom strip** — small banner above the sign preview
+3. **Horrorscopes page** — full-width banner between the section header and Dave's byline
+
+To swap the illustration, replace `public/images/horrorscopes.jpg` with a new image (keep the same filename, or update all three references in the JS render functions: `renderSection`, `renderFront`, and `renderHorrorscopes`).
 
 ---
 
@@ -143,7 +168,28 @@ The site uses Google Fonts (loaded via CDN — no download needed):
 Color palette is defined as CSS variables at the top of the `<style>` block:
 - `--paper`: `#f5f0e8` (warm off-white background)
 - `--ink`: `#0d0d0d` (near-black text)
-- `--accent`: `#8b1a1a` (deep red — section labels, links, drop caps)
+- `--accent`: `#8b1a1a` (deep red — section labels, flags, drop caps)
 - `--muted`: `#4a4a4a` (secondary text)
+- `--light-rule`: `#c8c0b0` (column dividers and card borders)
 
-The layout is fully responsive with breakpoints at 800px (tablet) and 540px (mobile). Mobile nav collapses to a hamburger menu.
+The layout is fully responsive with breakpoints at 800px (tablet) and 540px (mobile). Mobile nav collapses to a hamburger menu with touch-friendly dropdown support for the Weekly Columns sub-menu.
+
+### Layout Structure (Front Page)
+
+```
+[ Top strip: date / edition ]
+[ Masthead: The Motorcity Mouth ]
+[ Nav ]
+[ Issue line ]
+┌─────────────────────┬──────────┐
+│  Lead story (3fr)   │ Sidebar  │
+│  - flag             │ (1fr)    │
+│  - headline         │ 4 stories│
+│  - 16:9 image       │ each w/  │
+│  - deck             │ 160px    │
+│  - lede + excerpt   │ image    │
+└─────────────────────┴──────────┘
+[ "More From Today's Edition" — 3-column grid, 180px images ]
+[ Bottom strip: Horrorscope preview | Detroit Weather ]
+[ Footer ]
+```
