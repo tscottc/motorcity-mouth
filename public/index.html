@@ -1648,7 +1648,11 @@ function sectionArticles(id) {
 }
 
 function navigate(path) {
-  window.location.hash = path;
+  if (window.location.hash.slice(1) === path) {
+    route();
+  } else {
+    window.location.hash = path;
+  }
   window.scrollTo(0, 0);
 }
 
