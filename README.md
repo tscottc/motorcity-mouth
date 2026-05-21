@@ -2,7 +2,7 @@
 
 A Detroit satirical newspaper website. Reads like a real local paper. Is not.
 
-**Live site:** motorcitymouth.com  
+**Live site:** themotorcitymouth.com  
 **Hosting:** Firebase Hosting (project: `motorcity-mouth`)  
 **Contact:** motorcitymouth@spaceflotsam.com
 
