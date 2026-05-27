@@ -993,56 +993,22 @@
       .lead-deck { font-size: 0.95rem; }
       .art-body p { font-size: 1rem; line-height: 1.8; }
 
-      /* hamburger button */
-      .nav-hamburger {
-        display: block;
-        width: 100%;
-        background: none;
-        border: none;
-        padding: 10px 14px;
-        font-size: 1.3rem;
-        text-align: left;
-        cursor: pointer;
-        color: var(--ink);
-        font-family: 'Barlow Condensed', sans-serif;
-        letter-spacing: 0.1em;
-      }
+      /* hamburger hidden — nav always visible */
+      .nav-hamburger { display: none; }
 
-      /* hide nav by default on mobile */
-      nav { display: none; flex-direction: column; width: 100%; }
-      .nav-wrap.nav-open nav { display: flex; }
-
-      /* nav items stack vertically */
-      nav .nav-item { width: 100%; }
+      /* nav wraps into rows instead of collapsing */
+      nav { display: flex; flex-wrap: wrap; flex-direction: row; width: 100%; }
+      nav .nav-item { width: auto; }
       nav .nav-item a {
-        padding: 10px 14px;
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        border-right: none;
+        padding: 7px 10px;
+        min-height: unset;
+        display: block;
+        font-size: 0.6rem;
+        border-right: 1px solid var(--light-rule);
         border-left: none;
-        border-bottom: 1px solid var(--light-rule);
+        border-bottom: none;
       }
-      .nav-item:first-child a { border-left: none; }
-
-      /* dropdowns inline */
-      .drop-menu {
-        display: none;
-        position: static;
-        border: none;
-        border-top: none;
-        box-shadow: none;
-        background: transparent;
-        min-width: unset;
-        padding-left: 8px;
-      }
-      .drop-menu a {
-        border-bottom: 1px solid var(--light-rule) !important;
-        padding: 8px 24px !important;
-        font-size: 0.65rem !important;
-        color: var(--muted);
-      }
-      .has-drop > a::after { display: none; }
+      .nav-item:first-child a { border-left: 1px solid var(--light-rule); }
 
       /* drop cap breaks layout on narrow screens */
       .art-body p:first-child::first-letter {
