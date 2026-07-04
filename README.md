@@ -71,7 +71,7 @@ The `articles/` and `examples/` folders are working files and are not served to 
 
 ## Adding or Updating an Article
 
-All articles are in the `ARTICLES` array near the top of `public/index.html` (look for the large comment block starting with `// ARTICLES`). Each article is a JavaScript object:
+All articles are in the `ARTICLES` array in `public/data/articles.js`. Each article is a JavaScript object:
 
 ```js
 {
@@ -237,7 +237,7 @@ Color palette is defined as CSS variables at the top of the `<style>` block:
 - `--muted`: `#4a4a4a` (secondary text)
 - `--light-rule`: `#c8c0b0` (column dividers and card borders)
 
-The layout is fully responsive with breakpoints at 800px (tablet) and 540px (mobile). Mobile nav collapses to a hamburger menu with touch-friendly dropdown support for the Weekly Columns sub-menu.
+The layout is fully responsive with breakpoints at 800px (tablet) and 540px (mobile). Nav is always visible (no hamburger) and wraps into rows on narrow screens, with dropdown support for the Weekly Columns sub-menu.
 
 ### Layout Structure (Front Page)
 

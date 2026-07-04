@@ -4,12 +4,50 @@
 
 const ARTICLES = [
   {
+    id: 'heatstroke-handcuffs-summer',
+    headline: 'Avoid Heatstroke & Handcuffs: 9 Ways to Beat the Heat This Summer',
+    deck: "The city's humidity doesn't care about your dignity. Here are nine field-tested, mostly legal techniques for surviving a Detroit August without losing your job, your dignity, or your freedom — at least, not all at once.",
+    section: 'trending',
+    featured: true,
+    frontPage: true,
+    byline: 'By Staff Reporter',
+    date: 'July 3, 2026',
+    lede: "The worst of summer is upon us, the planet having hurled itself through space these last several months in the shadow of its own rotundness, hidden from the Sun and its formidable UV rays. We're talking, of course, about the Earth. Not you. You've been hidden from nothing. You've been out of doors, because a little heat stroke rarely kills, and you've risked much worse than this for your iced mocha venti latte with llama milk and cinnamon. You've absorbed every ray like the beached whale you resemble in that crop top you think is keeping you cool.",
+    image: 'images/heatstroke-handcuffs.jpg',
+    imageCaption: 'A Detroit-area man demonstrates survival technique #3, Stay Completely Still, using a public beach as a makeshift cooling station.',
+    body: `<p>The worst of summer is upon us, the planet having hurled itself through space these last several months in the shadow of its own rotundness, hidden from the Sun and its formidable UV rays. We're talking, of course, about the Earth. Not you. You've been hidden from nothing. You've been out of doors, because a little heat stroke rarely kills, and you've risked much worse than this for your iced mocha venti latte with llama milk and cinnamon. You've absorbed every ray like the beached whale you resemble in that crop top you think is keeping you cool.</p>
+
+<p>Indeed, Summer is in full effect. There are extreme heat warnings from the National Weather Service, the French are shedding their tops again on a beach your neighbor's great grandfather died on, and Donald Trump's spray tan finally has an alibi. Nobody can accuse the man of orange-tinted vanity when the entire country is the same shade. The soft pompadour atop the First Scalp remains largely untouched by the frying effects of a scorching sun, held aloft by hairspray, yes, but also the sheer will of a man just doing his best to look cute today.</p>
+
+<p>And down in Detroit, where the humidity follows us to bed at night, the city is caving. In the West Wing of our own apartments, the rooms we swore to never air condition, there is now a window unit belching lukewarm air that smells distinctly of Virginia Slims 150's. We return with our melted iced coffee concoctions like refugees returning to their one dry patch of tent. Outside, at any given time, that same pride that drove us out into the streets is causing heat related illness the old fashioned way.</p>
+
+<p>So before you become another statistic in the heat waves yet to come, before you're found melted on the kitchen floor, rigor mortis sculpting your last attempted reach for the freezer door, let us offer you a public service announcement. Nine ways to survive the hottest month of the year without losing your job, your dignity, or your freedom (at least, not all at once.) These methods are illegal in 14 states and questionable in all 50—always check with your local law enforcement agency before commencing with confidence.</p>
+
+<p><strong>1. Don't use T.P. on the Toilet.</strong> Your cheeks will learn to appreciate the sweet, numbing relief of cool porcelain when they land on the bare seat. Hygiene is subjective in August.</p>
+
+<p><strong>2. Skip the Socks and Underwear.</strong> Let every crevice breathe. Cotton traps heat. Elastic strangles freedom. Embrace chafing—it's just a sign your body is fighting for survival.</p>
+
+<p><strong>3. Stay completely still.</strong> Movement is for people with central air. Any gesture larger than a blink invites sweat. Be the statue. Become one with the laminate flooring.</p>
+
+<p><strong>4. Take hourly trips to the frozen section of the grocery store.</strong> Stand next to the bagged peas, look lost. If someone asks if you need help, say yes—and point to your internal temperature. They'll leave you alone.</p>
+
+<p><strong>5. Cry.</strong> Tears are nature's facial mist. If you're dehydrated, don't worry—your body will find a way to sweat out your sorrow instead.</p>
+
+<p><strong>6. Latch onto someone with a boat or central air.</strong> You don't need to love them. You don't even need to like them. Just know what time they get off work and invite yourself over—or just show up unannounced. You can't risk them changing their mind or getting ideas about "alone time." Relationships are built on mutual benefit, and in this case, your benefit is 72 degrees and directional airflow. Bring a six-pack if you must, but remember: you're not a guest—you're a climate refugee.</p>
+
+<p><strong>7. Accept dampness as your identity.</strong> You're not moist—you're atmospheric. People don't understand humidity couture because they haven't suffered enough. Some people PAY for the wet look. You're just ahead of the trend.</p>
+
+<p><strong>8. Lie to yourself.</strong> Tell yourself it's "not that bad." Use mantras like "at least it's a dry heat" even when it's not. Reality is a luxury only the climate-controlled can afford.</p>
+
+<p><strong>9. Sleep on the floor like an animal.</strong> Heat rises. Dignity can too. A tile floor and a paper-thin towel will be your mattress, your therapist, your truth. You'll wake up sore, but vaguely less sweaty.</p>`
+  },
+  {
     id: 'grand-prix-citizens-faq',
     headline: 'The Detroit Grand Prix Citizens FAQ',
     deck: "Guy Fieri, a guy named Rick, and twenty-one million barrels of Monster Energy Drink — your complete guide to the annual event where the cars go fast and the residents cannot.",
     section: 'local',
-    featured: true,
-    frontPage: true,
+    featured: false,
+    frontPage: false,
     byline: 'By Staff Reporter',
     date: 'May 18, 2026',
     lede: "Once again the city's most exhilarating civic traffic violation of the year, the Grand Prix, has returned to Detroit. With a route that defies sound engineering practices, a media presence bigger than the trial of Kwame Kilpatrick, and enough energy drinks to murder livestock, Detroit once again reclaims its title as the reckless heartbeat of American Motorsport. As enjoyable an event it may be, the Grand Prix is not without its unique challenges and curiosities. So if you find yourself wondering \"Can I walk through my own city during this?\" we've got you covered!",
@@ -23,7 +61,7 @@ const ARTICLES = [
 
 <p><strong>Q: What exactly is the Detroit Grand Prix?</strong><br>A: No one is entirely sure, but what we do know is that it's an annual event where race car drivers will zip past iconic Detroit landmarks including Joe Louis's fist, the food court where Eminem's cousin once worked, and at least four high-end apartments whose tenants had no idea this was happening, all while the people who live there wait 40 minutes for a bus that never comes.</p>
 
-<p><strong>Q: What is the course going to be like this year?</strong><br>A: This year's course is a nerve-splitting circuit that loops through downtown. The map is available here for download. According to race officials, the track will include 13 stops, three spirals, and "a highly competitive stretch near the Renaissance Center," which veterans say could see cars reaching up to 35 mph if they beat the crosswalk signal.</p>
+<p><strong>Q: What is the course going to be like this year?</strong><br>A: This year's course is a nerve-splitting circuit that loops through downtown. The map is available <a href="/articles/grand-prix-map.html" target="_blank" rel="noopener">here</a> for download. According to race officials, the track will include 13 stops, three spirals, and "a highly competitive stretch near the Renaissance Center," which veterans say could see cars reaching up to 35 mph if they beat the crosswalk signal.</p>
 
 <p><strong>Q: Who is hosting this year's Grand Prix?</strong><br>A: Guy Fieri has been confirmed as Grand Marshal, which tracks, because nothing says "Detroit Renaissance" like a man whose entire personality is melted cheese. He will be driven around the course in a ceremonial lap at 11 mph while pointing finger guns at the crowd. The Detroit Grand Prix official website lists several backup options, including long-time popular ex-Mayor Kwame Kilpatrick, Kid Rock in a racist T-Shirt and signature overalls, and a random teenager who won a sweepstakes by tagging #FastestInTheD on Instagram.</p>
 
