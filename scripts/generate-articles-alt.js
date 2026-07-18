@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 'use strict';
 
-// Generates the tabloid article pages (public/articles/*.html), sitemap.xml,
-// and robots.txt. This is the live production generator. The previous
-// broadsheet design has been demoted to scripts/generate-articles-alt.js,
-// which builds public/articles-alt/*.html and does not touch these shared files.
+// Generates the archived broadsheet article pages (public/articles-alt/*.html).
+// This is the DEMOTED previous design — kept as a reference/rollback copy.
+// Does NOT touch public/articles/, sitemap.xml, or robots.txt, which belong
+// to the live site and are owned by scripts/generate-articles.js.
 
 const fs   = require('fs');
 const path = require('path');
@@ -13,7 +13,7 @@ const { ARTICLES } = require('../public/data/articles.js');
 
 const BASE_URL  = 'https://themotorcitymouth.com';
 const PUBLIC    = path.resolve(__dirname, '../public');
-const OUT_DIR   = path.join(PUBLIC, 'articles');
+const OUT_DIR   = path.join(PUBLIC, 'articles-alt');
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
@@ -53,6 +53,7 @@ function fixImagePaths(html) {
   return html.replace(/src="images\//g, 'src="../images/');
 }
 
+// Strip HTML tags for plain-text meta description
 function stripTags(html) {
   return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 }
@@ -63,20 +64,13 @@ function metaDescription(article) {
   return stripTags(article.body).slice(0, 160);
 }
 
-// ── Article page template (tabloid) ─────────────────────────────────
+// ── Article page template ─────────────────────────────────────────
 
 function articleHtml(article) {
-  const url      = `${BASE_URL}/articles/${article.id}.html`;
-  const imgUrl   = article.image
-    ? `${BASE_URL}/${article.image}`
-    : `${BASE_URL}/images/og-image.svg`;
+  const url      = `${BASE_URL}/articles-alt/${article.id}.html`;
   const desc     = metaDescription(article);
   const section  = sectionLabel(article.section);
   const body     = fixImagePaths(article.body);
-  const posStyle = article.imagePosition ? ` style="object-position:${esc(article.imagePosition)}"` : '';
-  const pubDate  = new Date(article.date).toISOString();
-  const author   = article.byline.replace(/^By\s+/i, '');
-  const keywords = ['Detroit', 'satire', 'The Motorcity Mouth', 'Detroit news', section].join(', ');
 
   const fbHref  = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
   const twHref  = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(article.headline);
@@ -85,192 +79,105 @@ function articleHtml(article) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F7HBVB60XW"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-F7HBVB60XW');
-  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${esc(article.headline)} — The Motorcity Mouth</title>
-  <meta name="theme-color" content="#f7f3e8" />
+  <title>${esc(article.headline)} — The Motorcity Mouth (Archived Design)</title>
+  <meta name="theme-color" content="#f5f0e8" />
+  <meta name="robots" content="noindex, nofollow" />
 
-  <!-- SEO -->
   <meta name="description" content="${esc(desc)}" />
-  <meta name="keywords" content="${esc(keywords)}" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="${url}" />
-  <meta name="author" content="${esc(author)}" />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="article" />
-  <meta property="og:site_name" content="The Motorcity Mouth" />
-  <meta property="og:title" content="${esc(article.headline)}" />
-  <meta property="og:description" content="${esc(desc)}" />
-  <meta property="og:url" content="${url}" />
-  <meta property="og:image" content="${imgUrl}" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="${esc(article.headline)}" />
-  <meta property="og:locale" content="en_US" />
-  <meta property="article:published_time" content="${pubDate}" />
-  <meta property="article:modified_time" content="${pubDate}" />
-  <meta property="article:section" content="${esc(section)}" />
-  <meta property="article:author" content="${esc(author)}" />
-  <meta property="article:tag" content="${esc(section)}" />
-  <meta property="article:tag" content="Detroit" />
-  <meta property="article:tag" content="Satire" />
-
-  <!-- Twitter / X Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@motorcitymouth" />
-  <meta name="twitter:title" content="${esc(article.headline)}" />
-  <meta name="twitter:description" content="${esc(desc)}" />
-  <meta name="twitter:image" content="${imgUrl}" />
-  <meta name="twitter:image:alt" content="${esc(article.headline)}" />
-
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "NewsArticle",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "${url}"
-    },
-    "headline": "${escJson(article.headline)}",
-    "description": "${escJson(desc)}",
-    "url": "${url}",
-    "datePublished": "${pubDate}",
-    "dateModified": "${pubDate}",
-    "inLanguage": "en-US",
-    "isAccessibleForFree": true,
-    "image": {
-      "@type": "ImageObject",
-      "url": "${imgUrl}",
-      "width": 1200,
-      "height": 630
-    },
-    "author": {
-      "@type": "Person",
-      "name": "${escJson(author)}"
-    },
-    "publisher": {
-      "@type": "NewsMediaOrganization",
-      "name": "The Motorcity Mouth",
-      "url": "${BASE_URL}",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "${BASE_URL}/favicon.svg",
-        "width": 512,
-        "height": 512
-      },
-      "sameAs": "https://www.facebook.com/share/1HuiAbSjDg/"
-    },
-    "articleSection": "${escJson(section)}",
-    "genre": "Satire",
-    "keywords": "${escJson(keywords)}"
-  }
-  </script>
 
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&family=Barlow+Condensed:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --ink: #111111;
-      --paper: #f7f3e8;
-      --red: #d81324;
-      --yellow: #ffcf00;
+      --ink: #0d0d0d;
+      --paper: #f5f0e8;
+      --rule: #1a1a1a;
+      --accent: #8b1a1a;
       --muted: #4a4a4a;
-      --rule: #111111;
-      --light-rule: #c9c0aa;
+      --light-rule: #c8c0b0;
     }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     html { font-size: 18px; scroll-behavior: smooth; }
-    html, body { overflow-x: hidden; }
 
     body {
       background: var(--paper);
       color: var(--ink);
       font-family: 'Libre Baskerville', Georgia, serif;
-      max-width: 900px;
+      max-width: 860px;
       margin: 0 auto;
       padding: 0 24px 60px;
-      background-image: radial-gradient(rgba(0,0,0,0.05) 0.6px, transparent 0.6px);
-      background-size: 4px 4px;
     }
 
+    /* ── Site header ── */
     .site-header {
-      background: var(--ink);
-      color: var(--yellow);
+      border-bottom: 4px double var(--rule);
+      padding: 18px 0 12px;
+      margin-bottom: 0;
       text-align: center;
-      padding: 16px 10px 12px;
-      border-top: 5px solid var(--red);
-      border-bottom: 5px solid var(--red);
-      margin: 0 -24px;
     }
+
     .site-header a {
-      font-family: 'Anton', sans-serif;
-      font-weight: 400;
-      font-size: clamp(1.7rem, 5vw, 2.4rem);
-      letter-spacing: 0.01em;
-      text-transform: uppercase;
-      color: var(--yellow);
-      text-decoration: none;
-      text-shadow: 2px 2px 0 var(--red);
-    }
-    .site-tagline {
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.62rem;
+      font-family: 'Libre Bodoni', 'Playfair Display', Georgia, serif;
+      font-size: 2.4rem;
       font-weight: 700;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      text-decoration: none;
       text-transform: uppercase;
-      color: #fff;
-      margin-top: 6px;
+    }
+
+    .site-header a:hover { color: var(--accent); }
+
+    .site-tagline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
     }
 
     .back-bar {
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 600;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 10px 0;
+      padding: 8px 0;
       border-bottom: 1px solid var(--light-rule);
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
-    .back-bar a { color: var(--red); text-decoration: none; }
+
+    .back-bar a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
     .back-bar a:hover { text-decoration: underline; }
 
-    .tag {
-      display: inline-block;
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.6rem;
-      font-weight: 700;
+    /* ── Article ── */
+    .article-section {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #fff;
-      background: var(--red);
-      padding: 3px 8px;
+      color: var(--accent);
+      font-weight: 600;
       margin-bottom: 10px;
     }
 
     .article-headline {
-      font-family: 'Anton', sans-serif;
-      font-weight: 400;
-      font-size: clamp(2rem, 4.8vw, 3.2rem);
-      line-height: 1.05;
-      text-transform: uppercase;
-      margin-bottom: 12px;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1.18;
+      margin-bottom: 14px;
       color: var(--ink);
     }
 
@@ -279,85 +186,57 @@ function articleHtml(article) {
       font-size: 1.1rem;
       font-style: italic;
       color: var(--muted);
-      line-height: 1.55;
-      margin-bottom: 16px;
-      text-align: justify;
-      hyphens: auto;
+      line-height: 1.5;
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--light-rule);
     }
 
     .article-meta {
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 600;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--muted);
-      padding: 10px 0 12px;
-      border-top: 1px solid var(--light-rule);
-      border-bottom: 3px solid var(--rule);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
-    .article-meta .byline { color: var(--ink); font-weight: 700; }
 
-    .evi-photo {
-      position: relative;
-      overflow: hidden;
-      background: #ccc9c0;
-      width: 100%;
-      height: 100%;
+    .article-meta .byline { color: var(--ink); font-weight: 600; }
+
+    .article-hero {
+      margin: 0 0 1.6em 0;
     }
-    .evi-photo img {
+
+    .article-hero img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
       display: block;
-      filter: contrast(1.06) saturate(0.92);
+      max-height: 520px;
+      object-fit: cover;
     }
-    .evi-photo::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(rgba(0,0,0,0.07) 0.5px, transparent 0.5px);
-      background-size: 3px 3px;
-      mix-blend-mode: multiply;
-      pointer-events: none;
-    }
-    .evi-stamp {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-family: 'Oswald', sans-serif;
-      font-weight: 700;
-      font-size: 0.6rem;
-      letter-spacing: 0.14em;
+
+    .article-hero figcaption {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
-      color: var(--red);
-      border: 2px double var(--red);
-      padding: 3px 8px;
-      transform: rotate(-6deg);
-      background: rgba(255,255,255,0.72);
-      pointer-events: none;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.55;
     }
 
-    .article-hero { margin: 0 0 6px 0; height: 440px; }
-    .article-hero-caption {
-      font-family: 'Permanent Marker', cursive;
-      color: var(--red);
-      font-size: 0.85rem;
-      margin-bottom: 22px;
+    .article-body {
+      font-size: 1.05rem;
+      line-height: 1.85;
     }
 
-    .article-body { font-size: 1.05rem; line-height: 1.85; }
-    .article-body p { margin-bottom: 1.3em; text-align: justify; hyphens: auto; }
-    .article-body p:first-child::first-letter {
-      float: left;
-      font-family: 'Anton', sans-serif;
-      font-size: 3.4rem;
-      line-height: 0.8;
-      margin: 6px 6px 0 0;
-      color: var(--red);
+    .article-body p {
+      margin-bottom: 1.3em;
     }
-    .article-body figure { margin: 0.2em 0 1em 0; }
+
+    .article-body figure {
+      margin: 0.2em 0 1em 0;
+    }
+
     .article-body figcaption {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.6rem;
@@ -367,23 +246,35 @@ function articleHtml(article) {
       margin-top: 6px;
       line-height: 1.55;
     }
-    .article-body ul, .article-body ol { margin: 0 0 1.3em 1.4em; padding: 0; line-height: 1.85; }
+
+    .article-body ul, .article-body ol {
+      margin: 0 0 1.3em 1.4em;
+      padding: 0;
+      line-height: 1.85;
+    }
+
     .article-body strong { font-weight: 700; }
     .article-body em { font-style: italic; }
 
-    .share-bar { display: flex; align-items: center; gap: 8px; }
-    .share-bar--top { margin-bottom: 22px; }
+    /* ── Share bar ── */
+    .share-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .share-bar--top {
+      margin-bottom: 22px;
+    }
     .share-bar--bottom {
       margin-top: 32px;
       padding-top: 18px;
-      border-top: 3px solid var(--rule);
+      border-top: 2px solid var(--rule);
       flex-wrap: wrap;
       gap: 10px;
     }
     .share-bar-label {
-      font-family: 'Oswald', sans-serif;
+      font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.6rem;
-      font-weight: 700;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--muted);
@@ -394,61 +285,93 @@ function articleHtml(article) {
       align-items: center;
       gap: 5px;
       background: none;
-      border: 2px solid var(--rule);
+      border: 1px solid var(--rule);
       color: var(--ink);
       cursor: pointer;
-      font-family: 'Oswald', sans-serif;
-      font-weight: 600;
+      font-family: 'Barlow Condensed', sans-serif;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       text-decoration: none;
-      transition: background 0.12s, color 0.12s, border-color 0.12s;
+      transition: background 0.12s, color 0.12s;
       line-height: 1;
     }
-    .share-bar--top .share-btn { padding: 6px 8px; font-size: 0; }
-    .share-bar--bottom .share-btn { padding: 8px 14px; font-size: 0.62rem; }
+    .share-bar--top .share-btn {
+      padding: 5px 7px;
+      font-size: 0;
+    }
+    .share-bar--bottom .share-btn {
+      padding: 7px 14px;
+      font-size: 0.62rem;
+    }
     .share-btn svg { display: block; flex-shrink: 0; }
-    .share-btn:hover, .share-btn--copied { background: var(--red); border-color: var(--red); color: #fff; }
+    .share-btn:hover,
+    .share-btn--copied {
+      background: var(--ink);
+      color: var(--paper);
+    }
 
+    /* ── Footer ── */
     .article-footer {
       margin-top: 48px;
       padding-top: 18px;
       border-top: 3px solid var(--rule);
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 600;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
       text-align: center;
     }
-    .article-footer a { color: var(--red); text-decoration: none; }
+
+    .article-footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
     .article-footer a:hover { text-decoration: underline; }
 
     @media (max-width: 600px) {
       body { padding: 0 14px 40px; }
-      .site-header { margin: 0 -14px; }
+      .site-header a { font-size: 1.7rem; }
       .article-headline { font-size: 1.7rem; }
-      .article-hero { height: 260px; }
       .share-bar--bottom { gap: 8px; }
       .share-bar--bottom .share-btn { padding: 7px 10px; }
     }
+
+    .archived-badge {
+      position: fixed;
+      top: 14px;
+      right: -46px;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 50px;
+      transform: rotate(40deg);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      z-index: 999;
+      pointer-events: none;
+    }
   </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7905222324104435" crossorigin="anonymous"></script>
 </head>
 <body>
 
+  <div class="archived-badge">Archived Design</div>
+
   <header class="site-header">
-    <a href="../index.html">The Motorcity Mouth</a>
-    <div class="site-tagline">If It's Not True, It Should Be</div>
+    <a href="../indexalt.html">The Motorcity Mouth</a>
+    <div class="site-tagline">Detroit&rsquo;s Most Trusted News Source</div>
   </header>
 
   <div class="back-bar">
-    <a href="../index.html">&#8592; All Dirt</a>
+    <a href="../indexalt.html">&#8592; All Stories</a>
   </div>
 
   <article>
-    <span class="tag">${esc(section)}</span>
+    <div class="article-section">${esc(section)}</div>
     <h1 class="article-headline">${esc(article.headline)}</h1>
     ${article.deck ? `<p class="article-deck">${esc(article.deck)}</p>` : ''}
     <div class="article-meta">
@@ -475,9 +398,10 @@ function articleHtml(article) {
       </a>
     </div>
 
-    ${article.image ? `<div class="evi-photo article-hero"><img src="../${article.image}" alt="${esc(article.headline)}"${posStyle}><span class="evi-stamp">Exclusive Photo</span></div>
-    ${article.imageCaption ? `<div class="article-hero-caption">${esc(article.imageCaption)}</div>` : ''}` : ''}
-
+    ${article.image ? `<figure class="article-hero">
+      <img src="../${article.image}" alt="${esc(article.headline)}">
+      ${article.imageCaption ? `<figcaption>${esc(article.imageCaption)}</figcaption>` : ''}
+    </figure>` : ''}
     <div class="article-body">
       ${body}
     </div>
@@ -508,7 +432,7 @@ function articleHtml(article) {
   </article>
 
   <footer class="article-footer">
-    <a href="../index.html">The Motorcity Mouth</a>
+    <a href="../indexalt.html">The Motorcity Mouth</a>
     &nbsp;&middot;&nbsp;
     Detroit&rsquo;s Most Trusted News Source
     &nbsp;&middot;&nbsp;
@@ -558,44 +482,4 @@ for (const article of ARTICLES) {
   console.log(`  ✓  ${article.id}.html`);
 }
 
-// ── sitemap.xml ───────────────────────────────────────────────────
-
-const today = new Date().toISOString().slice(0, 10);
-
-const sitemapEntries = ARTICLES.map(a => {
-  const pubDate = new Date(a.date).toISOString().slice(0, 10);
-  return `  <url>
-    <loc>${BASE_URL}/articles/${a.id}.html</loc>
-    <lastmod>${pubDate}</lastmod>
-    <changefreq>never</changefreq>
-    <priority>0.8</priority>
-  </url>`;
-}).join('\n');
-
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${BASE_URL}/</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-${sitemapEntries}
-</urlset>
-`;
-
-fs.writeFileSync(path.join(PUBLIC, 'sitemap.xml'), sitemap, 'utf8');
-console.log('\n  ✓  sitemap.xml');
-
-// ── robots.txt ────────────────────────────────────────────────────
-
-const robots = `User-agent: *
-Allow: /
-
-Sitemap: ${BASE_URL}/sitemap.xml
-`;
-
-fs.writeFileSync(path.join(PUBLIC, 'robots.txt'), robots, 'utf8');
-console.log('  ✓  robots.txt');
-
-console.log(`\nDone. Generated ${count} article pages.\n`);
+console.log(`\nDone. Generated ${count} archived-design article pages in public/articles-alt/.\n`);

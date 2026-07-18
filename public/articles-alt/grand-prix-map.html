@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F7HBVB60XW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-F7HBVB60XW');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Official Detroit Grand Prix Course Map — The Motorcity Mouth</title>
+  <meta name="theme-color" content="#f5f0e8" />
+  <meta name="description" content="The official course map for the Detroit Grand Prix, provided by race officials and absolutely not the People Mover route." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://themotorcitymouth.com/articles/grand-prix-map.html" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #0d0d0d;
+      --paper: #f5f0e8;
+      --rule: #1a1a1a;
+      --accent: #8b1a1a;
+      --muted: #4a4a4a;
+      --light-rule: #c8c0b0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 18px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Libre Baskerville', Georgia, serif;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    /* ── Site header ── */
+    .site-header {
+      border-bottom: 4px double var(--rule);
+      padding: 18px 0 12px;
+      text-align: center;
+    }
+
+    .site-header a {
+      font-family: 'Libre Bodoni', 'Playfair Display', Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .site-header a:hover { color: var(--accent); }
+
+    .site-tagline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .back-bar {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--light-rule);
+      margin-bottom: 32px;
+    }
+
+    .back-bar a { color: var(--accent); text-decoration: none; }
+    .back-bar a:hover { text-decoration: underline; }
+
+    /* ── Page content ── */
+    .article-section {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .article-headline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1.18;
+      margin-bottom: 14px;
+      color: var(--ink);
+    }
+
+    .article-deck {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--light-rule);
+    }
+
+    .article-meta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    /* ── Map container — mobile-first, pinch-zoom friendly ── */
+    .map-wrap {
+      width: 100%;
+      margin-bottom: 12px;
+      border: 1px solid var(--light-rule);
+      overflow: hidden;
+      touch-action: pan-x pan-y;        /* allow native pinch-zoom */
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .map-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      /* On small screens let the image be scrollable if user zooms in natively */
+      max-width: 100%;
+    }
+
+    .map-caption {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 28px;
+      line-height: 1.55;
+    }
+
+    .map-note {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--muted);
+      font-style: italic;
+      border-top: 1px solid var(--light-rule);
+      padding-top: 20px;
+      margin-top: 4px;
+    }
+
+    .zoom-hint {
+      display: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    /* ── Footer ── */
+    .article-footer {
+      margin-top: 48px;
+      padding-top: 18px;
+      border-top: 3px solid var(--rule);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .article-footer a { color: var(--accent); text-decoration: none; }
+    .article-footer a:hover { text-decoration: underline; }
+
+    /* ── Mobile ── */
+    @media (max-width: 600px) {
+      body { padding: 0 14px 48px; }
+
+      .site-header a { font-size: 1.6rem; }
+
+      .article-headline { font-size: 1.7rem; }
+
+      .zoom-hint { display: block; }
+
+      /* On mobile, let the image overflow its container so the browser's
+         native pinch-zoom can expand it without clipping */
+      .map-wrap {
+        overflow: visible;
+        border: none;
+      }
+
+      .map-wrap img {
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--light-rule);
+      }
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7905222324104435" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="/">The Motorcity Mouth</a>
+    <p class="site-tagline">Detroit's Most Trusted News Source</p>
+  </header>
+
+  <div class="back-bar">
+    <a href="/articles/grand-prix-citizens-faq.html">← Back to Grand Prix FAQ</a>
+  </div>
+
+  <main>
+    <p class="article-section">Local</p>
+    <h1 class="article-headline">Official Detroit Grand Prix Course Map</h1>
+    <p class="article-deck">Official Detroit Grand Prix Course Map, 2026.</p>
+    <p class="article-meta">Motorcity Mouth Staff &nbsp;·&nbsp; May 2026</p>
+
+    <p class="zoom-hint">Pinch to zoom</p>
+
+    <div class="map-wrap">
+      <img
+        src="/images/grand-prix-map.jpg"
+        alt="Official Detroit Grand Prix course map"
+        loading="eager"
+      />
+    </div>
+    <p class="map-caption">
+      Provided by race officials. Any resemblance to the People Mover is purely coincidental and not indicative of a city whose most ambitious public transit achievement is a loop you can outrun on foot.
+    </p>
+  </main>
+
+  <footer class="article-footer">
+    <a href="/">The Motorcity Mouth</a>
+    &nbsp;&middot;&nbsp;
+    Detroit&rsquo;s Most Trusted News Source
+    &nbsp;&middot;&nbsp;
+    &copy; 2026
+  </footer>
+
+</body>
+</html>
